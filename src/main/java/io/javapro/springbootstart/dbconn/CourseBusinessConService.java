@@ -29,11 +29,9 @@ public class CourseBusinessConService {
 
 
 	
-	 public void addCourse(TopicCrud topicCrud) { 
-		 repository.save(topicCrud); 
-		 }
+	
 
-
+	 
 	public String getUpdateCourse(Long id, TopicCrud topicCrud) {
 		  
 	    Optional<TopicCrud> result = repository.findById(id);
@@ -56,49 +54,30 @@ public class CourseBusinessConService {
 			
 	}
 	
-	public ResponseEntity<Map<String, String>> getUpdateCourses(Long id, TopicCrud topicCrud) {
-		
+	public ResponseEntity<Map<String, String>> getUpdateCourses(TopicCrud topicCrud) {
+		Long id = topicCrud.getId();
 		 Optional<TopicCrud> result = repository.findById(id);
-		 
 		 if(result.isPresent()) {
-		    	
 			 repository.save(topicCrud);
-			 
-			
-		    	
 			 Map<String, String> successResponse = Map.of(
 			    		
-	    		      "message", "Updated",
+	    		      "message", "Updated Sucessfully",
 	    		      "status", HttpStatus.OK.toString()
 	    		  );
-
 				return new ResponseEntity<>(successResponse, HttpStatus.OK);
-			 
 	    }else {	
-
 	    	System.out.println("not found");
-	    	
 	    	Map<String, String> errorResponse = Map.of(
 	    		
 	    		      "message", "Not Founded",
 	    		      "status", HttpStatus.BAD_REQUEST.toString()
 	    		  );
-
-	    	
-			//return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Updated");
-	    	  return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-
-	    	 
+	  	    	  return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 	    }
-		    
 	}
 	
-	
-		
-	
-
 	public void getDelete(Long id) {
-		repository.deleteById(id);;
+		repository.deleteById(id);
 		
 	}
 }

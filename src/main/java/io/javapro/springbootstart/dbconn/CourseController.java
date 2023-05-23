@@ -76,9 +76,17 @@ public class CourseController {
 	 
 	
 	@RequestMapping(method = RequestMethod.POST, value ="/topic")
-	public void addCourses(@RequestBody TopicCrud topicCrud ) {
-	  businessController.addCourse(topicCrud); 
-	  }
+	public ResponseEntity<TopicCrud> addCourses(@RequestBody TopicCrud topicCrud ) {
+	  
+		TopicCrud refTopicCrud = repository.save(topicCrud);
+	    if (refTopicCrud == null) {
+	    
+	        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+	    } else {
+	        return new ResponseEntity<>(refTopicCrud, HttpStatus.CREATED);
+	    }
+	  
+	}
 	
 		/*
 		 * @RequestMapping(method = RequestMethod.PUT, value ="/topic/{id}") public void
@@ -86,12 +94,11 @@ public class CourseController {
 		 * businessController.getUpdateCourse(id, topicCrud); }
 		 */
 	
-	@RequestMapping(method = RequestMethod.PUT, value ="/updatetopic/{id}")
-	public ResponseEntity<Map<String, String>> updateCourse(@RequestBody TopicCrud topicCrud, @PathVariable Long id) {
-		//businessController.getUpdateCourse(id, topicCrud);
-		//return businessController.getUpdateCourse(id, topicCrud);
-		businessController.getUpdateCourses(id, topicCrud);
-		return businessController.getUpdateCourses(id, topicCrud);
+	@RequestMapping(method = RequestMethod.PUT, value ="/updatetopic")
+	public ResponseEntity<Map<String, String>> updateCourse(@RequestBody TopicCrud topicCrud) {
+		
+		businessController.getUpdateCourses(topicCrud);
+		return businessController.getUpdateCourses(topicCrud);
 	}
 	
 
